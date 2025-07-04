@@ -66,8 +66,20 @@ Future plans for PyTorch 2.8 integration include further optimizations for large
 
 **Questions and Answers:**
 
-Page Attention: Jianhui Li asked about the impact of page-based attention on input tensors, as this would split the tensor into smaller, non-contiguous pieces, and how this would be handled as input in the Graph API. Tao outlined the challenges in implementing page-based attention, specifically with tensor layouts and cache loading operations. Tao emphasized that while the design for supporting page-based attention is still under development, it is an important feature that will eventually be supported, given its growing popularity. However, the exact implementation is still under discussion.
+*Page Attention:*
 
-Graph API Partitioning: Penporn asked about the value of exporting graph partitions. Tao explained that there are two main scenarios: In the Single Partition Scenario, the user constructs the graph to meet the library's requirements, and the partition API returns a single partition, giving the user full control. In the Multiple Partition Scenario, the user provides a larger graph, and the library identifies the optimal partitions, which are returned by the partition API. The user must then execute the partitions in topological order. 
+Jianhui Li asked about the impact of page-based attention on input tensors, as this would split the tensor into smaller, non-contiguous pieces, and how this would be handled as input in the Graph API. 
 
-Integration with XLA: Penporn also raised the question of oneDNN Graph API's integration with XLA (Accelerated Linear Algebra). The motivation for using the oneDNN Graph API in XLA is that it aligns well with XNNPACK, another backend library that also incorporates graph constructs. Tao explained that XLA is already leveraging oneDNN for optimizing operations on Intel CPU platforms. By using the Graph API, XLA can simplify graph construction and execution, converting the XLA Graph into corresponding backend library graphs seamlessly. The XLA integration is exploring the possibility of transitioning oneDNN integration from the primitive API to the Graph API. The team is evaluating the Graph API's capabilities, particularly in terms of feature parity with the primitive API and addressing specific challenges such as block layout and scratchpad handling.
+Tao outlined the challenges in implementing page-based attention, specifically with tensor layouts and cache loading operations. Tao emphasized that while the design for supporting page-based attention is still under development, it is an important feature that will eventually be supported, given its growing popularity. However, the exact implementation is still under discussion.
+
+*Graph API Partitioning:*
+
+Penporn asked about the value of exporting graph partitions. 
+
+Tao explained that there are two main scenarios: In the Single Partition Scenario, the user constructs the graph to meet the library's requirements, and the partition API returns a single partition, giving the user full control. In the Multiple Partition Scenario, the user provides a larger graph, and the library identifies the optimal partitions, which are returned by the partition API. The user must then execute the partitions in topological order. 
+
+*Integration with XLA:*
+
+Penporn also raised the question of oneDNN Graph API's integration with XLA (Accelerated Linear Algebra). The motivation for using the oneDNN Graph API in XLA is that it aligns well with XNNPACK, another backend library that also incorporates graph constructs. 
+
+Tao explained that XLA is already leveraging oneDNN for optimizing operations on Intel CPU platforms. By using the Graph API, XLA can simplify graph construction and execution, converting the XLA Graph into corresponding backend library graphs seamlessly. The XLA integration is exploring the possibility of transitioning oneDNN integration from the primitive API to the Graph API. The team is evaluating the Graph API's capabilities, particularly in terms of feature parity with the primitive API and addressing specific challenges such as block layout and scratchpad handling.
